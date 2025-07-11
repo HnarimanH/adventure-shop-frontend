@@ -40,7 +40,7 @@ function CreatAccform(){
     }
     return(
         <>
-                <Title fileName={"BmoSayingHi.png"} text={"Sign up"}/>
+                <Title fileName={"BmoSayingHi.png"} text={""}/>
 
                 <h1 className="text-white sm:text-black">
                     {error}
@@ -91,6 +91,7 @@ function CreatAccform(){
 
                 </div>
                <Button 
+               bgButton={"bg-[#E8F0Fe]"}
                marginBottom={"mb-5"}
                text={"Submit"} 
                event={event}  

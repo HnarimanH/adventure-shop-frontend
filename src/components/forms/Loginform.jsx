@@ -24,7 +24,7 @@ function Loginform(){
     return(
         <>
 
-                <Title fileName={"BmoSayingHi.png"} text={"Sign In"}/>
+                <Title fileName={"BmoSayingHi.png"} text={""}/>
 
                 <h1 className="text-white sm:text-black">
                     {error}
@@ -54,6 +54,7 @@ function Loginform(){
 
                 </div>
                <Button 
+               bgButton={"bg-[#E8F0Fe]"}
                marginBottom={"mb-5"}
                text={"Login"} 
                event={event} 

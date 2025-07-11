@@ -1,1 +1,10 @@
-@import "tailwindcss";
+@import "tailwindcss"; 
+@font-face {
+  font-family: 'TitleFont';
+  src: url('./assets/fonts/Vality DEMO.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+} 
+.title-font{
+    font-family: "TitleFont";
+}   

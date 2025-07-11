@@ -23,10 +23,10 @@ function SignPage(){
             <div className=" w-full lg:w-1/2 h-full smh-1/2 lg:h-full overflow-hidden relative flex justify-center items-center gap-7">
 
 
-                <div className="absolute z-10 w-full h-5/6 sm:hidden flex flex-col items-center justify-center bg-white/10 backdrop-blur-md border-white/50 border-b-2 border-t-2">
+                <div className="absolute z-10 w-full h-5/6 sm:hidden flex flex-col items-center justify-center  backdrop-blur-md border-white/50 border-b-2 border-t-2">
                     {isLogin ? <Loginform/> : <CreatAccform/>}
                     <Button 
-                    
+                    bgButton={"bg-[#E8F0Fe]"}
                     text={`${isLogin ? "Create account" : "Log in"}`} 
                     event={pageHandler} 
                     widthButton={"w-[190px]"}
@@ -40,16 +40,16 @@ function SignPage(){
                     
 
                     <div 
-                    style={{ fontFamily: 'cursive' }} 
-                    className="w-full h-full flex flex-col  justify-center items-center bg-white/10 backdrop-blur-md border-white/50 border-2 rounded-2xl">
+                    className="w-full h-full flex flex-col font-Glandolia justify-center items-center backdrop-blur-md border-white/50 border-2 rounded-2xl">
 
                         <div className="h-1/2 flex flex-col items-center justify-center">
-                            <h1 className="text-3xl text-white">Welcome to</h1>
-                            <h1 className="text-4xl text-white">Adventure Shop</h1>
+                            <h1 className="text-3xl text-white title-font">Welcome to</h1>
+                            <h1 className="text-4xl text-white title-font">Adventure Shop</h1>
                         </div>
 
                         <div className="h-1/2 flex flex-col items-center justify-center">
                             <Button 
+                            bgButton={"bg-[#E8F0Fe]"}
                             text={`${isLogin ? "Create account" : "Log in"}`} 
                             event={pageHandler} 
                             widthButton={"w-[190px]"}
@@ -67,7 +67,7 @@ function SignPage(){
             </div>
 
 
-            <div className="w-full lg:w-1/2 h-full sm:h-1/2 lg:h-full  hidden sm:flex flex-col items-center justify-center bg-yellow-50">
+            <div className="w-full lg:w-1/2 h-full sm:h-1/2 lg:h-full  hidden sm:flex flex-col items-center justify-center bg-">
 
                 {isLogin ? <Loginform/> : <CreatAccform/>}
             </div>
