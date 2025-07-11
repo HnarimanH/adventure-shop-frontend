@@ -64,9 +64,6 @@ class HandleApiCalls {
             token
         });
     }
-    deleteInactiveUser() {
-        return axios.post(`${API}/deleteinactiveuser/`, {});
-    }
 
 }
 

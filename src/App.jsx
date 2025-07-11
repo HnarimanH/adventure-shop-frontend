@@ -11,12 +11,6 @@ function App() {
   return false;
 });
   
-  useEffect(() => {
-  const interval = setInterval(() => {
-    api.deleteInactiveUser()
-  }, 2 * 60 * 1000);
-  return () => clearInterval(interval); 
-}, []);
 
 
 
