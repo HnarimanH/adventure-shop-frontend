@@ -64,6 +64,10 @@ class HandleApiCalls {
             token
         });
     }
+    ForgotPass() {
+        return axios.post(`${API}/forgotPass/`, {
+        });
+    }
 
 }
 

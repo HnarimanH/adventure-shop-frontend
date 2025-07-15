@@ -40,9 +40,9 @@ function CreatAccform(){
     }
     return(
         <>
-                <Title fileName={"BmoSayingHi.png"} text={""}/>
+                <Title fileName={"BmoSayingHi.png"} text={"Register"}/>
 
-                <h1 className="text-white sm:text-black">
+                <h1 className="text-white sm:text-black text-shadow-2xs h-5">
                     {error}
                 </h1>
                 <div className="w-[375px] h-[300px] flex flex-col items-center justify-center gap-[15px] ">

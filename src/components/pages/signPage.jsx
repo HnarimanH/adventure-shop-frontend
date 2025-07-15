@@ -1,15 +1,21 @@
 import React from "react";
-import HandleApiCalls from "../auth/Api";
 import Button from "../miniComponents/Button";
 import Loginform from "../forms/Loginform";
 import CreatAccform from "../forms/CreatAccForm";
+import ChangePassForm from "../forms/ChangePassForm";
 import { useState } from "react";
 function SignPage(){
     const [isLogin, setIsLogin] = useState(true);
+    
+
     const pageHandler = ()=>{
         setIsLogin(!isLogin)
         
     }
+   
+
+
+    
 
 
 
@@ -21,10 +27,11 @@ function SignPage(){
     return(
         <div className="w-full h-full flex flex-col-reverse lg:flex-row justify-center items-center">
             <div className=" w-full lg:w-1/2 h-full smh-1/2 lg:h-full overflow-hidden relative flex justify-center items-center gap-7">
-
-
-                <div className="absolute z-10 w-full h-5/6 sm:hidden flex flex-col items-center justify-center  backdrop-blur-md border-white/50 border-b-2 border-t-2">
-                    {isLogin ? <Loginform/> : <CreatAccform/>}
+                
+                
+                <div className="absolute z-10 w-full h-full sm:hidden flex flex-col items-center justify-center  backdrop-blur-md ">
+                    {isLogin ? <Loginform /> : <CreatAccform/>}
+                    
                     <Button 
                     bgButton={"bg-[#E8F0Fe]"}
                     text={`${isLogin ? "Create account" : "Log in"}`} 
@@ -40,7 +47,7 @@ function SignPage(){
                     
 
                     <div 
-                    className="w-full h-full flex flex-col font-Glandolia justify-center items-center backdrop-blur-md border-white/50 border-2 rounded-2xl">
+                    className="w-full h-full shadow-2xl flex flex-col font-Glandolia justify-center items-center backdrop-blur-md border-white/50 border-2 rounded-2xl">
 
                         <div className="h-1/2 flex flex-col items-center justify-center">
                             <h1 className="text-3xl text-white title-font">Welcome to</h1>

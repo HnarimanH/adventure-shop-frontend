@@ -25,14 +25,17 @@ function App() {
       try {
         const res = await api.VerifyEmail(uid, token);
         console.log("Email verified", res);
+
         
         setIsLogedIn(true);
+        window.history.replaceState({}, document.title, "/");
       } catch (err) {
         console.error(
           "Verification or login failed:",
           err.response?.data || err.message
         );
       }
+
     }
   };
 

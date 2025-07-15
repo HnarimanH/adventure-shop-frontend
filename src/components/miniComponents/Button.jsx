@@ -9,7 +9,7 @@ function Button({text, event, widthButton, heightButton, bgButton, marginBottom,
     const height = heightButton || "h-full";
     return(
         <>
-        <div onClick={event} className={`${width} ${height} ${bg} ${mb} hover:bg-gray-200 ${hiddenInMobile} items-center justify-center transition duration-200 border-white/50 border-2 rounded-2xl cursor-pointer`}>
+        <div onClick={event} className={`${width} ${height} ${bg} ${mb} hover:bg-gray-200 ${hiddenInMobile} shadow-2xl items-center justify-center transition duration-200 border-white/50 border-2 rounded-2xl cursor-pointer`}>
             <h1>
                 {text}
             </h1>
