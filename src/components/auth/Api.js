@@ -56,6 +56,7 @@ class HandleApiCalls {
 
         }).catch((err) => {
             console.error("Login error:", err.response?.data || err.message);
+
         });
     }
     VerifyEmail(uid, token) {
@@ -64,8 +65,31 @@ class HandleApiCalls {
             token
         });
     }
-    ForgotPass() {
+    ResetPassword(uid, token, new_password) {
+        return axios.post(`${API}/resetpassword/`, {
+            uid,
+            token,
+            new_password
+        });
+    }
+    ForgotPass(email, new_password) {
         return axios.post(`${API}/forgotPass/`, {
+            email,
+            password: new_password
+
+        }).then((res) => {
+
+
+            if (res.data.message == 'invalid request') {
+                return "invalid email or password";
+            }
+            return "password reset email sent";
+
+
+
+        }).catch((err) => {
+            console.error("reset pass error:", err.response?.data || err.message);
+            return 'invalid email';
         });
     }
 

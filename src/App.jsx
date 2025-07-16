@@ -20,8 +20,24 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     const uid = params.get("uid");
     const token = params.get("token");
+    const newpassword = params.get("newpassword");
+    const email = params.get("email");
+    if (uid && token && email) {
+      try {
+        const res = await api.ResetPassword(uid, token, newpassword);
+        console.log("password reset succesfull", res);
 
-    if (uid && token) {
+
+        window.history.replaceState({}, document.title, "/");
+      } catch (err) {
+        console.error(
+          "password reset faild failed:",
+          err.response?.data || err.message
+        );
+      }
+
+    }
+    else if (uid && token) {
       try {
         const res = await api.VerifyEmail(uid, token);
         console.log("Email verified", res);

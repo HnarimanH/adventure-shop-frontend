@@ -12,7 +12,7 @@ function Title({text, fileName, }){
 
                 <img src={`./src/assets/${fileName}`} alt="image" className="h-full w-auto object-cover"/>
 
-                <h1 className="text-2xl text-white text-shadow-lg/30 sm:text-black">
+                <h1 className="text-2xl text-center text-white text-shadow-lg/30 sm:text-black">
                    {text}
                 </h1>
 
