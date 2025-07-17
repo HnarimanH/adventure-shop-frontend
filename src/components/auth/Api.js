@@ -5,7 +5,6 @@ const API = import.meta.env.VITE_API_URL;
 class HandleApiCalls {
 
     Register(username, email, password, first_name, last_name) {
-
         return axios.post(`${API}/register/`, {
             username,
             email,
@@ -13,26 +12,16 @@ class HandleApiCalls {
             first_name,
             last_name
         }).then((res) => {
-
             return "Verification Email sent!";
-
         }).catch((err) => {
-
-
             const errors = err.response?.data;
 
-            if (errors.email && errors.username) {
-
+            if (errors?.email && errors?.username) {
                 return `${errors.email} and ${errors.username} already in use`;
-
-            } else if (errors.email || errors.username) {
+            } else if (errors?.email || errors?.username) {
                 return `${errors.email ? errors.email : errors.username} already in use`;
             }
-
-
-
         });
-
     }
 
 
