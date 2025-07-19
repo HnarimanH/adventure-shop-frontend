@@ -25,4 +25,6 @@ dist-ssr
 .env
 venv/
 node_modules/
+localhost-key.pem
+localhost-cert.pem
 
