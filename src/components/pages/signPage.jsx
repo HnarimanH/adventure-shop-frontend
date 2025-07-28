@@ -41,7 +41,7 @@ function SignPage(){
                 </div>
 
 
-                <img src="./src/assets/treehouse.png" alt="image" className="absolute h-full sm:w-full sm:h-full lg:w-auto object-cover"/>
+                <img src="/assets/treehouse.png" alt="image" className="absolute h-full sm:w-full sm:h-full lg:w-auto object-cover"/>
                  
                 <div className="absolute w-[400px] h-[500px] hidden sm:flex flex-col justify-center items-center">
                     

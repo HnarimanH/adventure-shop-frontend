@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function Input({placeHolder, widthInput, type, value, onChange, }){
     const width = widthInput || "w-full";
     const [isVisible, setIsVisible] = useState(false)
-    const eyeIconPath = isVisible ? './src/assets/eye.png' : './src/assets/closedEye.png';
+    const eyeIconPath = isVisible ? '/assets/eye.png' : '/assets/closedEye.png';
     const visibletType = isVisible ? 'text' : type;
     let hidden = 'hidden'
     let limit = 100

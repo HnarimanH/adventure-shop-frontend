@@ -1,7 +1,7 @@
 @import "tailwindcss"; 
 @font-face {
   font-family: 'TitleFont';
-  src: url('./assets/fonts/Vality DEMO.otf') format('opentype');
+  src: url('/assets/fonts/Vality DEMO.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 } 
@@ -24,3 +24,15 @@ input:-internal-autofill-selected {
 .top-shadow {
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
 }
+.bottom-shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.left-shadow {
+  box-shadow: -4px 0 6px rgba(0, 0, 0, 0.1);
+}
+.right-shadow {
+  box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+}
+

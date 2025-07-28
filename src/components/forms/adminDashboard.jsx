@@ -2,8 +2,7 @@ import React from "react";
 
 function AdminDashboard(){
     const logOut = () =>{
-        localStorage.removeItem('token')
-        localStorage.removeItem('is_superuser')
+        localStorage.clear();
         window.location.reload()
     }
     return(

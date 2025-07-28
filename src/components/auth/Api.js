@@ -36,11 +36,18 @@ class HandleApiCalls {
 
 
             if (res.data.message == 'invalid request') {
+                console.log(res.data)
                 return "invalid email or password";
+
             }
             const token = res.data.access;
 
             localStorage.setItem('is_superuser', String(res.data.is_superuser));
+            localStorage.setItem('first_name', String(res.data.first_name));
+            localStorage.setItem('last_name', String(res.data.last_name));
+            localStorage.setItem('email', String(res.data.email));
+            localStorage.setItem('username', String(res.data.username));
+            localStorage.setItem('profilePic', String(res.data.profilePic));
             localStorage.setItem('token', token);
             window.location.reload()
         }).catch((err) => {
@@ -58,9 +65,7 @@ class HandleApiCalls {
             if (res.data.message == 'invalid request') {
                 return "invalid request";
             }
-            const token = res.data.access;
-            localStorage.setItem('token', token);
-            window.location.reload()
+            return res;
         }).catch((err) => {
             console.error("verify email error:", err.response?.data || err.message);
 
