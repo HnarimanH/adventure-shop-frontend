@@ -39,10 +39,10 @@ class HandleApiCalls {
                 return "invalid email or password";
             }
             const token = res.data.access;
+
+            localStorage.setItem('is_superuser', String(res.data.is_superuser));
             localStorage.setItem('token', token);
             window.location.reload()
-
-
         }).catch((err) => {
             console.error("Login error:", err.response?.data || err.message);
 
@@ -52,6 +52,18 @@ class HandleApiCalls {
         return axios.post(`${API}/emailverification/`, {
             uid,
             token
+        }).then((res) => {
+
+
+            if (res.data.message == 'invalid request') {
+                return "invalid request";
+            }
+            const token = res.data.access;
+            localStorage.setItem('token', token);
+            window.location.reload()
+        }).catch((err) => {
+            console.error("verify email error:", err.response?.data || err.message);
+
         });
     }
     ResetPassword(uid, token, new_password) {
@@ -80,6 +92,24 @@ class HandleApiCalls {
             console.error("reset pass error:", err.response?.data || err.message);
             return 'invalid email';
         });
+    }
+    GetData() {
+        return axios.post(`${API}/forgotPass/`, {}).then((res) => {
+
+
+            if (res.data.message == 'invalid request') {
+                return "invalid request";
+            }
+            return res;
+
+
+
+        }).catch((err) => {
+            console.error("reset pass error:", err.response?.data || err.message);
+            return 'invalid email';
+        });
+
+        get
     }
 
 }
