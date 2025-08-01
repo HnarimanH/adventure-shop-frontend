@@ -4,15 +4,16 @@ import React from "react";
 
 
 
-function Title({text, fileName, }){
+function Title({text, fileName, mobileTextColor}){
+    const MobileTextColor = mobileTextColor ||"white"
     return(
         <>
             <div style={{fontFamily:"cursive"}}
-            className="h-[100px] w-[200px]  flex  flex-col sm:flex-row lg:flex-col items-center justify-center mb-10 sm:mb-0 lg:mb-10">
+            className="h-[100px] w-[300px]  flex  flex-col sm:flex-row lg:flex-col items-center justify-center mb-10 sm:mb-0 lg:mb-10">
 
                 <img src={`/assets/${fileName}`} alt="image" className="h-full w-auto object-cover"/>
 
-                <h1 className="text-2xl text-center text-white text-shadow-lg/30 sm:text-black">
+                <h1 className={`text-2xl text-center text-${MobileTextColor} text-shadow-lg/30 sm:text-black`}>
                    {text}
                 </h1>
 

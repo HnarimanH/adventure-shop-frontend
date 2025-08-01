@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useApi } from "../auth/ApiProvider";
 function AdminDashboard(){
     const logOut = () =>{
         localStorage.clear();

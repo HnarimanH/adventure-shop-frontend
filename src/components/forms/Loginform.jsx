@@ -4,9 +4,10 @@ import Button from "../miniComponents/Button";
 import Title from "../miniComponents/Title";
 import ChangePassForm from "./ChangePassForm";
 import React, { useState } from "react";
+import { useApi } from "../auth/ApiProvider";
 
-const api = new HandleApiCalls();
 function Loginform(){
+    const { api, isLoading } = useApi();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");

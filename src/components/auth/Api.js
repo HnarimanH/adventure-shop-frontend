@@ -3,9 +3,14 @@ const API = import.meta.env.VITE_API_URL;
 
 
 class HandleApiCalls {
+    constructor(setIsLoading, isLoading) {
+        this.setIsLoading = setIsLoading;
+        this.isLoading = isLoading;
+    }
 
     Register(username, email, password, first_name, last_name) {
-        return axios.post(`${API}/register/`, {
+        this.setIsLoading(true)
+        return axios.post(`${API}api/register/`, {
             username,
             email,
             password,
@@ -21,13 +26,13 @@ class HandleApiCalls {
             } else if (errors?.email || errors?.username) {
                 return `${errors.email ? errors.email : errors.username} already in use`;
             }
-        });
+        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
     }
 
 
     Login(email, password) {
-
-        return axios.post(`${API}/login/`, {
+        this.setIsLoading(true)
+        return axios.post(`${API}api/login/`, {
 
             email,
             password,
@@ -53,10 +58,11 @@ class HandleApiCalls {
         }).catch((err) => {
             console.error("Login error:", err.response?.data || err.message);
 
-        });
+        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
     }
     VerifyEmail(uid, token) {
-        return axios.post(`${API}/emailverification/`, {
+        this.setIsLoading(true)
+        return axios.post(`${API}api/emailverification/`, {
             uid,
             token
         }).then((res) => {
@@ -69,17 +75,19 @@ class HandleApiCalls {
         }).catch((err) => {
             console.error("verify email error:", err.response?.data || err.message);
 
-        });
+        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
     }
     ResetPassword(uid, token, new_password) {
-        return axios.post(`${API}/resetpassword/`, {
+        this.setIsLoading(true)
+        return axios.post(`${API}api/resetpassword/`, {
             uid,
             token,
             new_password
-        });
+        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
     }
     ForgotPass(email, new_password) {
-        return axios.post(`${API}/forgotPass/`, {
+        this.setIsLoading(true)
+        return axios.post(`${API}api/forgotPass/`, {
             email,
             password: new_password
 
@@ -96,10 +104,11 @@ class HandleApiCalls {
         }).catch((err) => {
             console.error("reset pass error:", err.response?.data || err.message);
             return 'invalid email';
-        });
+        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
     }
     GetData() {
-        return axios.post(`${API}/forgotPass/`, {}).then((res) => {
+        this.setIsLoading(true)
+        return axios.get(`${API}adminDashboard/showproduct/`, {}).then((res) => {
 
 
             if (res.data.message == 'invalid request') {
@@ -110,11 +119,11 @@ class HandleApiCalls {
 
 
         }).catch((err) => {
-            console.error("reset pass error:", err.response?.data || err.message);
-            return 'invalid email';
-        });
+            console.error("got invalid request:", err.response?.data || err.message);
+            return 'failed to fetch data';
+        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
 
-        get
+
     }
 
 }

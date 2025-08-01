@@ -5,7 +5,7 @@ function Dashboard(){
     
     return(
         <>
-        {localStorage.getItem('is_superuser') === "true" ? <AdminDashboard/> : <UserDashboard/>}
+        {localStorage.getItem('is_superuser') === "true" ? <AdminDashboard /> : <UserDashboard/>}
         </>
     );
 }

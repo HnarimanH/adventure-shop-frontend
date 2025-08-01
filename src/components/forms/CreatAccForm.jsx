@@ -4,8 +4,10 @@ import {useState} from "react";
 import Input from "../miniComponents/Input";
 import Button from "../miniComponents/Button";
 import Title from "../miniComponents/Title";
-const api = new HandleApiCalls();
+import { useApi } from "../auth/ApiProvider";
+
 function CreatAccform(){
+    const { api, isLoading } = useApi();
     const [email,      setEmail] = useState("");
     const [username,   setUsername] = useState("");
     const [password,   setPassword] = useState("");

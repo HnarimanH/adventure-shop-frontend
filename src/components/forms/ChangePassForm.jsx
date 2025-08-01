@@ -3,8 +3,10 @@ import Input from "../miniComponents/Input";
 import Button from "../miniComponents/Button";
 import HandleApiCalls from "../auth/Api";
 import Title from "../miniComponents/Title";
-const api = new HandleApiCalls()
+import { useApi } from "../auth/ApiProvider";
+
 function ChangePassForm({isBack, setIsBack}){
+    const { api, isLoading } = useApi();
     const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [new_password, setPassword] = useState("");
@@ -39,8 +41,8 @@ function ChangePassForm({isBack, setIsBack}){
     return(
     <>
     <div className={`${isBack} flex-col gap-10 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full backdrop-blur-md backdrop-brightness-50 z-50 flex justify-center items-center shadow-2xl `}>
-            <div className="w-1/2 h-2/3 bg-white rounded-2xl flex flex-col items-center justify-center gap-10">
-            <Title fileName={"BmoSayingHi.png"} text={"Please enter your email"}/>
+            <div className="w-full h-full lg:w-1/2 lg:h-3/4 bg-white rounded-2xl flex flex-col items-center justify-center gap-10">
+            <Title fileName={"BmoSayingHi.png"} text={"Please enter your email"} mobileTextColor={"black"}/>
             <h1 className="text-white sm:text-black text-shadow-2xs h-10">
                     {error}
                 </h1>

@@ -2,9 +2,11 @@ import SignPage from './components/pages/signPage'
 import { use, useEffect, useState } from "react";
 import HandleApiCalls from './components/auth/Api';
 import Dashboard from './components/pages/dashboard';
-
-const api = new HandleApiCalls();
+import Loading from './components/miniComponents/Loading';
+import { useApi } from "./components/auth/ApiProvider";
 function App() {
+  
+  const { api, isLoading } = useApi();
   
   const [isLogedIn, setIsLogedIn] = useState(() => {
 
@@ -27,7 +29,7 @@ function App() {
     if (uid && token && email) {
       try {
         const res = await api.ResetPassword(uid, token, newpassword);
-        console.log("password reset succesfull", res);
+        console.log("password reset succesfull");
         
 
         window.history.replaceState({}, document.title, "/");
@@ -42,7 +44,7 @@ function App() {
     else if (uid && token) {
       try {
         const res = await api.VerifyEmail(uid, token);
-        console.log("Email verified", res);
+        console.log("Email verified");
         const accessToken = res.data.access;
 
         localStorage.setItem('is_superuser', String(res.data.is_superuser));
@@ -70,8 +72,9 @@ function App() {
   return (
     <>
       <div className='w-screen h-screen flex justify-center items-center'>
+          {isLoading && <Loading />}
           
-          {isLogedIn ? <Dashboard/> : <SignPage/>}
+          {isLogedIn ? <Dashboard /> : <SignPage  />}
       </div>
     </>
   )
