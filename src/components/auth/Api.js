@@ -3,9 +3,11 @@ const API = import.meta.env.VITE_API_URL;
 
 
 class HandleApiCalls {
-    constructor(setIsLoading, isLoading) {
+    constructor(setIsLoading, isLoading, setIsLogedIn) {
         this.setIsLoading = setIsLoading;
         this.isLoading = isLoading;
+        this.setIsLogedIn = setIsLogedIn;
+
     }
 
     Register(username, email, password, first_name, last_name) {
@@ -26,7 +28,7 @@ class HandleApiCalls {
             } else if (errors?.email || errors?.username) {
                 return `${errors.email ? errors.email : errors.username} already in use`;
             }
-        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
+        }).finally(() => this.setIsLoading(false))
     }
 
 
@@ -46,7 +48,7 @@ class HandleApiCalls {
 
             }
             const token = res.data.access;
-
+            const refreshToken = res.data.refresh;
             localStorage.setItem('is_superuser', String(res.data.is_superuser));
             localStorage.setItem('first_name', String(res.data.first_name));
             localStorage.setItem('last_name', String(res.data.last_name));
@@ -54,11 +56,12 @@ class HandleApiCalls {
             localStorage.setItem('username', String(res.data.username));
             localStorage.setItem('profilePic', String(res.data.profilePic));
             localStorage.setItem('token', token);
-            window.location.reload()
+            localStorage.setItem('refreshToken', refreshToken);
+            return (true)
         }).catch((err) => {
             console.error("Login error:", err.response?.data || err.message);
 
-        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
+        }).finally(() => this.setIsLoading(false))
     }
     VerifyEmail(uid, token) {
         this.setIsLoading(true)
@@ -75,7 +78,7 @@ class HandleApiCalls {
         }).catch((err) => {
             console.error("verify email error:", err.response?.data || err.message);
 
-        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
+        }).finally(() => this.setIsLoading(false))
     }
     ResetPassword(uid, token, new_password) {
         this.setIsLoading(true)
@@ -83,7 +86,7 @@ class HandleApiCalls {
             uid,
             token,
             new_password
-        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
+        }).finally(() => this.setIsLoading(false))
     }
     ForgotPass(email, new_password) {
         this.setIsLoading(true)
@@ -104,7 +107,7 @@ class HandleApiCalls {
         }).catch((err) => {
             console.error("reset pass error:", err.response?.data || err.message);
             return 'invalid email';
-        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
+        }).finally(() => this.setIsLoading(false))
     }
     GetData() {
         this.setIsLoading(true)
@@ -121,9 +124,54 @@ class HandleApiCalls {
         }).catch((err) => {
             console.error("got invalid request:", err.response?.data || err.message);
             return 'failed to fetch data';
-        }).finally(() => this.setIsLoading(false)) // ✅ THIS is the right way
+        }).finally(() => this.setIsLoading(false))
 
 
+    }
+    DeleteUser() {
+        this.setIsLoading(true);
+
+        const performDelete = () => {
+            return axios.delete(`${API}api/DeleteUser/`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+        };
+
+        return performDelete()
+            .catch(async (err) => {
+                if (err.response?.status === 401) {
+                    const refreshed = await this.TokenRefresh();
+                    console.log(refreshed)
+                    if (refreshed) {
+                        return axios.delete(`${API}api/DeleteUser/`, {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem("token")}`
+                            }
+                        });
+                    }
+                }
+                console.error("Delete user error:", err.response?.data || err.message);
+                return "failed to delete User";
+            })
+            .finally(() => this.setIsLoading(false));
+    }
+
+    TokenRefresh(refreshToken) {
+        return axios.post(`${API}api/token/refresh/`, {
+            refresh: refreshToken ? refreshToken : String(localStorage.getItem("refreshToken"))
+        })
+            .then(res => {
+                const newAccessToken = res.data.access;
+                localStorage.setItem("token", newAccessToken);
+                return true;
+            })
+            .catch(err => {
+
+                console.error("Token refresh error:", err.response?.data || err.message);
+                return false;
+            });
     }
 
 }

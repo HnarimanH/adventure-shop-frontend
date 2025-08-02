@@ -6,14 +6,18 @@ import Loading from './components/miniComponents/Loading';
 import { useApi } from "./components/auth/ApiProvider";
 function App() {
   
-  const { api, isLoading } = useApi();
+  const { api, isLoading, isLogedIn, setIsLogedIn } = useApi();
   
-  const [isLogedIn, setIsLogedIn] = useState(() => {
 
-    
-  if (localStorage.getItem("token")){ return true; }
-  return false;
-});
+
+  setTimeout(() => {
+                
+                setIsLogedIn(() => {
+                  if (localStorage.getItem("token")){ return true; }
+                  return false;
+            }); 
+            }, 0);
+
   
 
 
@@ -46,7 +50,7 @@ function App() {
         const res = await api.VerifyEmail(uid, token);
         console.log("Email verified");
         const accessToken = res.data.access;
-
+        const refreshToken = res.data.refresh;
         localStorage.setItem('is_superuser', String(res.data.is_superuser));
         localStorage.setItem('first_name', String(res.data.first_name));
         localStorage.setItem('last_name', String(res.data.last_name));
@@ -54,8 +58,11 @@ function App() {
         localStorage.setItem('username', String(res.data.username));
         localStorage.setItem('profilePic', String(res.data.profilePic));
         localStorage.setItem('token', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
         window.history.replaceState({}, document.title, "/");
-        window.location.reload()
+        setTimeout(() => {
+                setIsLogedIn(true);
+            }, 0);
         
       } catch (err) {
         console.error(
@@ -69,6 +76,8 @@ function App() {
 
   verifyAndLogin();
 }, []);
+
+
   return (
     <>
       <div className='w-screen h-screen flex justify-center items-center'>

@@ -1,15 +1,17 @@
 import React from "react";
 import Profile from "../miniComponents/Profile";
 import Navigation from "../miniComponents/Navigation";
-import Menue from "../miniComponents/Menues";
+import Settings from "../miniComponents/Settings";
 import { useState, useEffect } from "react";
 import ShowProductForm from "./ShowProductForm";
 import Filters from "../miniComponents/Filters";
-import { ChevronLeft } from "lucide-react"
+import { ChevronLeft, LogOut } from "lucide-react"
 import { useApi } from "../auth/ApiProvider";
-
+import PopUp from "../miniComponents/popUp";
 function UserDashboard(){
-    const { api, isLoading } = useApi();
+    const { api, setIsLogedIn } = useApi();
+     const [popup, setPopup] = useState(false);
+    
 
 
     const [price, setPrice] = useState(100); 
@@ -29,10 +31,6 @@ function UserDashboard(){
     }, []);
 
 
-    const logOut = () =>{
-        localStorage.clear();
-        window.location.reload()
-    }
 
     
     const [isOpen, setIsOpen] = useState(false)
@@ -43,17 +41,42 @@ function UserDashboard(){
     }
 
 
-    const [openSettings, setOpenSettigns] = useState(false)
+    const [openSettings, setOpenSettings] = useState(false)
 
     const OpenSettings = () => {
-        setOpenSettigns(!openSettings)
+        setOpenSettings(!openSettings)
     }
+    const logout = () => {
+            localStorage.clear()
+            setIsLogedIn(false)
+        }
+
+
+
+
+    useEffect(()=>{
+        
+        const validate_token = async()=>{
+
+            if (!localStorage.getItem("refreshToken")) return;
+            const validate_refreshtoken = await api.TokenRefresh(localStorage.getItem("refreshToken"))
+            if (!validate_refreshtoken){
+                setTimeout(() => {
+                localStorage.clear();
+                setIsLogedIn(false); 
+            }, 0);
+            }else{
+                console.log("all good")
+            }
+        }
+        validate_token();
+    },[])
     return(
         
         
         <div className="w-full h-full flex flex-col justify-center items-center relative overflow-x-hidden">
-
-            <Menue kind={"settings"} event={OpenSettings} variable={openSettings}/>
+            <PopUp popup={popup} setPopup={setPopup} message={"are you sure you want to delete your account?"}/>
+            <Settings setPopup={setPopup} event={OpenSettings} variable={openSettings}/>
             <div className={`w-full max-w-[700px] h-40 z-20  flex flex-col items-center justify-center fixed top-0 transform transition-transform duration-300 ${isOpen ? "translate-y-0" : "-translate-y-40"}`}>
                 <div className={`w-full h-full bottom-shadow rounded-b-2xl bg-[#c44e08] flex flex-row items-center justify-center fixed top-0`}>
                     <div className="w-1/2 h-full flex flex-row items-start justify-start">
@@ -61,8 +84,8 @@ function UserDashboard(){
                             <Profile title={"Welcome"} titleSize={"sm"} size={"100"}/>
                         </div>
                     </div>
-                    <div className="w-1/2 h-full flex flex-row items-start justify-start ">
-                            
+                    <div onClick={logout} className="w-1/2 h-full flex flex-row items-center justify-end ">
+                            <LogOut className="w-14 h-14 mr-10 text-white hover:text-gray-400 transform duration-300"/>
                     </div>
                     
                 </div>

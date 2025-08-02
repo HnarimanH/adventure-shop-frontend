@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { useApi } from "../auth/ApiProvider";
 
 function Loginform(){
-    const { api, isLoading } = useApi();
+    const { api, setIsLogedIn } = useApi();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -21,10 +21,15 @@ function Loginform(){
     
     const event  = async () => {
         const res = await api.Login(email, password)
-        setError(res);
+        if (res){
+            setIsLogedIn(true)
+        }else{
+            setError(res);
         setTimeout(() => {
                 setError("");
             }, 5000);
+        }
+        
 
     }
     return(
