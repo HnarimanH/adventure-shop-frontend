@@ -1,7 +1,6 @@
 import SignPage from './components/pages/signPage'
-import { use, useEffect, useState } from "react";
-import HandleApiCalls from './components/auth/Api';
 import Dashboard from './components/pages/dashboard';
+import { useEffect } from 'react';
 import Loading from './components/miniComponents/Loading';
 import { useApi } from "./components/auth/ApiProvider";
 function App() {

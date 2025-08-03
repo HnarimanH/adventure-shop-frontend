@@ -14,7 +14,7 @@ function UserDashboard(){
     
 
 
-    const [price, setPrice] = useState(100); 
+    const [price, setPrice] = useState(1000); 
     const [category, setCategory] = useState('All')
     const [sortBy, setSortBy] = useState('price')
 
@@ -34,7 +34,7 @@ function UserDashboard(){
 
     
     const [isOpen, setIsOpen] = useState(false)
-     const [isOpenFilter, setIsOpenFilter] = useState(true)
+     const [isOpenFilter, setIsOpenFilter] = useState(false)
 
     const open = () => {
         setIsOpen(!isOpen)
@@ -77,17 +77,16 @@ function UserDashboard(){
         <div className="w-full h-full flex flex-col justify-center items-center relative overflow-x-hidden">
             <PopUp popup={popup} setPopup={setPopup} message={"are you sure you want to delete your account?"}/>
             <Settings setPopup={setPopup} event={OpenSettings} variable={openSettings}/>
-            <div className={`w-full max-w-[700px] h-40 z-20  flex flex-col items-center justify-center fixed top-0 transform transition-transform duration-300 ${isOpen ? "translate-y-0" : "-translate-y-40"}`}>
-                <div className={`w-full h-full bottom-shadow rounded-b-2xl bg-[#c44e08] flex flex-row items-center justify-center fixed top-0`}>
-                    <div className="w-1/2 h-full flex flex-row items-start justify-start">
-                        <div className="w-auto h-auto mt-[30px]  ml-5">
+            <div className={`w-full max-w-[700px] h-auto z-20  flex flex-col items-center justify-center fixed top-0 transform transition-transform duration-300 ${isOpen ? "translate-y-0" : "-translate-y-40"}`}>
+                <div className={`w-full h-40 bottom-shadow border-r-2 border-b-2 border-l-2 rounded-b-2xl bg-[#c44e08] flex flex-row items-center justify-center fixed top-0`}>
+                    <div className="w-1/2 h-auto flex flex-row items-center justify-start">
+                        <div className="w-auto h-28 ml-5">
                             <Profile title={"Welcome"} titleSize={"sm"} size={"100"}/>
                         </div>
                     </div>
                     <div onClick={logout} className="w-1/2 h-full flex flex-row items-center justify-end ">
                             <LogOut className="w-14 h-14 mr-10 text-white hover:text-gray-400 transform duration-300"/>
                     </div>
-                    
                 </div>
             </div>
 
@@ -101,12 +100,12 @@ function UserDashboard(){
             
             
             
-            <div className="w-full h-full overflow-y-auto flex items-center justify-center">
+            <div className="w-full h-auto flex items-center justify-center">
                 <ShowProductForm products={products} price={price} category={category} sortBy={sortBy}/>
             </div>
             
 
-            <div className="w-full max-w-[700px] h-24 rounded-t-2xl bg-white  top-shadow flex flex-row items-center justify-center fixed bottom-0">
+            <div className="w-full max-w-[700px] border-l-2 border-r-2 border-t-2  h-24  rounded-t-2xl bg-white  top-shadow flex flex-row items-center justify-center fixed bottom-0">
                 <div className="w-[90%] h-full flex flex-row items-center justify-between">
                     <Navigation title={"Home"} kind={"home"}/>
                     <Navigation title={"Settings"} kind={"settings"} event={OpenSettings}/>
