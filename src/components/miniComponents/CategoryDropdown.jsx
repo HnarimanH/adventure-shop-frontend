@@ -17,13 +17,13 @@ function CategoryDropdown({ setCategory, categories, placeHolder }) {
     <div className="relative w-[80%]">
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="border rounded p-2 bg-white shadow cursor-pointer flex justify-between items-center"
+        className={`border ${isOpen ? "rounded-t-xl" : "rounded-xl"} p-2 bg-white shadow cursor-pointer flex justify-between items-center`}
       >
         {selected}
         <span className="ml-2">{isOpen ? "▲" : "▼"}</span>
       </div>
       {isOpen && (
-        <ul className="absolute top-full left-0 w-full bg-white border rounded shadow z-10">
+        <ul className="absolute top-full left-0 w-full bg-white border rounded-b-xl shadow z-10">
           {categories.map((cat) => (
             <li
               key={cat}

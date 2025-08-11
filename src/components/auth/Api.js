@@ -173,8 +173,77 @@ class HandleApiCalls {
                 return false;
             });
     }
+    Cart(type = 'get', product_id = null) {
+        this.setIsLoading(true);
+        return axios.post(
+            `${API}api/Cart/`,
+            {
+                type: type,
+                product_id: product_id,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        )
+            .then(res => res)
+            .catch(async () => {
+                if (err.response?.status === 401) {
+                    const refreshed = await this.TokenRefresh();
+                    console.log(refreshed)
+                }
+            }).finally(
+                this.setIsLoading(false)
+            );
+    }
+    CreateProduct(price, url, category, name, description) {
+        this.setIsLoading(true);
+        return axios.post(
+            `${API}adminDashboard/createproduct/`,
+            {
+                name: name,
+                description: description,
+                price: price,
+                category: category,
+                image_url: url,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        )
+            .then((res) => {
+                if (res.status === 201 || res.status === 200) {
+                    return "Product created successfully";
+                }
+                return res.data;
+            })
+            .catch((e) => {
+                const Error = e.response?.data || {};
 
+                if (Array.isArray(Error.name) && Error.name[0] === "a product by this name exists!") {
+                    return Error.name[0];
+                } else if (Array.isArray(Error.image_url) && Error.image_url[0]) {
+                    return Error.image_url[0];
+                }
+
+                console.log(Error);
+            })
+            .finally(() => this.setIsLoading(false));
+    }
+    DeleteProduct(name) {
+        this.setIsLoading(true);
+        return axios.delete(`${API}adminDashboard/deleteproduct/`, {
+            data: { name: name },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        }).finally(() => { this.setIsLoading(false) });
+    }
 }
+
 
 
 export default HandleApiCalls;

@@ -1,22 +1,14 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import NextProducts from "../miniComponents/NextProducts";
-import { useCart } from "../miniComponents/CartVariablesProvider";
-import { useApi } from "../auth/ApiProvider";
-import Product from "../miniComponents/product";
-function ShowProductForm({products, price, category, sortBy}){
-  const {api} = useApi();
- const {setProductsInCart, productsInCart} = useCart();
+import React, {useState, useEffect, use} from "react";
 
-  
-  const [currentPage, setCurrentPage] = useState(1);
-  
+import { useApi } from "../../auth/ApiProvider";
 
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [category, price]);
+import ShowProduct from "./showProduct";
+import NextProducts from "../../miniComponents/NextProducts";
 
-  const filteredProducts = products.filter(product => {
+
+function DeleteProduct({setProduct, products, price, category, sortBy ,}){
+    const [currentPage, setCurrentPage] = useState(1);
+    const filteredProducts = products.filter(product => {
 
     const Price = parseFloat(product.price);
     if (category === "All"){
@@ -38,7 +30,7 @@ function ShowProductForm({products, price, category, sortBy}){
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
 
 
-  
+
   const nextNum = ()=>{
     if (currentPage === totalPages){
       setCurrentPage(totalPages)
@@ -54,7 +46,6 @@ function ShowProductForm({products, price, category, sortBy}){
       setCurrentPage(currentPage - 1)
     }
   }
-  
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   const sortedProducts = () => {
   const sorted = [...currentProducts]; 
@@ -68,29 +59,14 @@ function ShowProductForm({products, price, category, sortBy}){
   }
   return sorted;
 };
-  
-  
-  
-  
-
-
-  
 
 
 
-
-    if (!sortedProducts() || sortedProducts().length === 0) {
-    return (
-      <div className="w-full h-full flex items-center justify-center text-gray-500 text-xl mt-10">
-        no items!!
-      </div>
-    );
-  }
-    return (
-      
-      <div className="h-full grid grid-cols-1 mt-10">
+    return(
+        <>
+        <div className="h-full grid grid-cols-1 mt-10">
           <div className="h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <Product type={'add'} sortedProducts={sortedProducts()}/>
+            <ShowProduct type={'delete'} sortedProducts={sortedProducts()} setProducts={setProduct}/>
 
         </div>
         <div className="h-20 w-full items-center justify-center flex mb-30">
@@ -98,17 +74,12 @@ function ShowProductForm({products, price, category, sortBy}){
         </div>  
         
       </div>
-  )
-
-    
-  }
+        </>
+    )
 
 
 
-
-    
-
+}
 
 
-
-export default ShowProductForm;
+export default DeleteProduct

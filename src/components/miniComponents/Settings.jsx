@@ -16,7 +16,7 @@ function Settings({event, variable,setPopup}){
 
      
         return(
-            <div className={`fixed left-0 w-full max-w-lg h-full bg-[#7EA13B] z-24 transform duration-300 ${variable ? " translate-x-0" : "-translate-x-full"}`}>
+            <div className={`fixed left-0 w-full max-w-lg h-full bg-[#7EA13B] z-50 transform duration-300 ${variable ? " translate-x-0" : "-translate-x-full"}`}>
                 <div className="w-full h-full flex flex-col items-center justify-center">
                     
                     <div className="w-3/4 h-2/3  border-l-4 border-white flex flex-col items-center justify-center gap-20">

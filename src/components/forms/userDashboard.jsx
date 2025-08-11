@@ -8,10 +8,18 @@ import Filters from "../miniComponents/Filters";
 import { ChevronLeft, LogOut } from "lucide-react"
 import { useApi } from "../auth/ApiProvider";
 import PopUp from "../miniComponents/popUp";
+import { CartVariablesProvider } from "../miniComponents/CartVariablesProvider";
+import Cart from "./Cart";
 function UserDashboard(){
     const { api, setIsLogedIn } = useApi();
      const [popup, setPopup] = useState(false);
-    
+    const [openCart, setOpenCart] = useState(false);
+    const CartOpen = () => {
+        setOpenCart(true)
+    }
+    const CartClose = () => {
+        setOpenCart(false)
+    }
 
 
     const [price, setPrice] = useState(1000); 
@@ -34,7 +42,7 @@ function UserDashboard(){
 
     
     const [isOpen, setIsOpen] = useState(false)
-     const [isOpenFilter, setIsOpenFilter] = useState(false)
+    const [isOpenFilter, setIsOpenFilter] = useState(false)
 
     const open = () => {
         setIsOpen(!isOpen)
@@ -73,11 +81,11 @@ function UserDashboard(){
     },[])
     return(
         
-        
+        <CartVariablesProvider>
         <div className="w-full h-full flex flex-col justify-center items-center relative overflow-x-hidden">
             <PopUp popup={popup} setPopup={setPopup} message={"are you sure you want to delete your account?"}/>
             <Settings setPopup={setPopup} event={OpenSettings} variable={openSettings}/>
-            <div className={`w-full max-w-[700px] h-auto z-20  flex flex-col items-center justify-center fixed top-0 transform transition-transform duration-300 ${isOpen ? "translate-y-0" : "-translate-y-40"}`}>
+            <div className={`w-full max-w-[700px] h-auto z-50  flex flex-col items-center justify-center fixed top-0 transform transition-transform duration-300 ${isOpen ? "translate-y-0" : "-translate-y-40"}`}>
                 <div className={`w-full h-40 bottom-shadow border-r-2 border-b-2 border-l-2 rounded-b-2xl bg-[#c44e08] flex flex-row items-center justify-center fixed top-0`}>
                     <div className="w-1/2 h-auto flex flex-row items-center justify-start">
                         <div className="w-auto h-28 ml-5">
@@ -99,23 +107,27 @@ function UserDashboard(){
             </div>
             
             
-            
-            <div className="w-full h-auto flex items-center justify-center">
-                <ShowProductForm products={products} price={price} category={category} sortBy={sortBy}/>
-            </div>
-            
+                <div className={` z-10 w-full h-auto  items-center justify-center ${openCart ? "hidden":"flex"}`}>
+                    <ShowProductForm products={products} price={price} category={category} sortBy={sortBy}/>
+                </div>
+                <div className={` w-full  h-auto z-20 items-center justify-center bg-white ${openCart ? "flex":"hidden"}`}>
+                    <Cart/>
+                </div>
 
-            <div className="w-full max-w-[700px] border-l-2 border-r-2 border-t-2  h-24  rounded-t-2xl bg-white  top-shadow flex flex-row items-center justify-center fixed bottom-0">
+
+            <div className="w-full max-w-[700px] border-l-2 border-r-2 border-t-2  h-24  rounded-t-2xl bg-white  top-shadow flex flex-row items-center justify-center fixed bottom-0 z-48">
                 <div className="w-[90%] h-full flex flex-row items-center justify-between">
-                    <Navigation title={"Home"} kind={"home"}/>
+                    
+                    <Navigation title={"Home"} kind={"home"} event={CartClose}/>
                     <Navigation title={"Settings"} kind={"settings"} event={OpenSettings}/>
                     <Navigation title={"Profile"} kind={"profile"} event={open}/>
-                    <Navigation title={"cart"} kind={"cart"}/>
+                    <Navigation title={"cart"} kind={"cart"} event={CartOpen}/>
+                    
                 </div>
             </div>
 
         </div>  
-        
+        </CartVariablesProvider>
     );
 }
 
