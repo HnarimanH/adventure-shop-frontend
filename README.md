@@ -4,4 +4,4 @@
 
 ## I'm going to write more documentation here to explain the components I implemented and the reason behind them.
 
-## You can also check out the backend of this project [here](https://github.com/HnarimanH/adventure-shop).
+## You can also check out the backend of this project [here](https://github.com/HnarimanH/Adventure_shop_django).
