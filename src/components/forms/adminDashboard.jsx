@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import Filters from "../miniComponents/Filters";
 import { ChevronLeft} from "lucide-react"
 import { useApi } from "../auth/ApiProvider";
-import PopUp from "../miniComponents/popUp";
 import AddProduct from "./adminComponents/AddProduct";
 import DeleteProduct from "./adminComponents/DeleteProduct";
+import UpdateProduct from "./adminComponents/UpdateProduct";
+import UpdateForm from "./adminComponents/UpdateForm";
 function UserDashboard(){
-    const {api} = useApi()
+    const {api, setIsLogedIn} = useApi()
     const [isOpenFilter, setIsOpenFilter] = useState(false)
     const [price, setPrice] = useState(1000); 
     const [category, setCategory] = useState('All')
@@ -16,6 +17,7 @@ function UserDashboard(){
     const [state, setState] = useState("addProduct")
 
     const [products, setProducts] = useState([]);
+    const [productToUpdate, setProductToUpdate] = useState(null);
     useEffect(()=>{
         const fetchData = async ()=>{
             const res = await api.GetData()
@@ -23,22 +25,20 @@ function UserDashboard(){
         };
         fetchData();
     }, []);
+    useEffect(()=>{
+        setState("updateForm")
+    }, [productToUpdate])
     const logout = () => {
         localStorage.clear()
         setIsLogedIn(false)
     }
+
     
 
 
 
 
-    const setAddProduct = () =>{
-        setState("addProduct")
-    }
-    const setDeleteProduct = () =>{
-        setState("deleteProduct")
-    }
-
+    
 
 
 
@@ -72,9 +72,15 @@ function UserDashboard(){
             </div>
             <div className={` z-20 w-full h-full  items-center justify-center ${state === "addProduct" ? "flex":"hidden"}`}>
                 <AddProduct/>
-                </div>
+            </div>
             <div className={` w-full  h-auto z-10 items-center justify-center bg-white ${state === "deleteProduct" ? "flex":"hidden"}`}>
                 <DeleteProduct setProduct={setProducts} products={products} price={price} category={category} sortBy ={sortBy}/>
+            </div>
+            <div className={` w-full  h-auto z-10 items-center justify-center bg-white ${state === "updateProduct" ? "flex":"hidden"}`}>
+                <UpdateProduct setProduct={setProductToUpdate} products={products} price={price} category={category} sortBy ={sortBy}/>
+            </div>
+            <div className={` w-full  h-full z-10 items-center justify-center bg-white ${state === "updateForm" ? "flex":"hidden"}`}>
+                <UpdateForm productToUpdate={productToUpdate}/>
             </div>
            
             
@@ -83,9 +89,9 @@ function UserDashboard(){
             <div className="w-full max-w-[700px] border-l-2 border-r-2 border-t-2  h-24  rounded-t-2xl bg-white  top-shadow flex flex-row items-center justify-center fixed bottom-0 z-48">
                 <div className="w-[90%] h-full flex flex-row items-center justify-between">
                     
-                    <Navigation title={"Add Product"} kind={"addProduct"} event={setAddProduct} />
-                    <Navigation title={"Delete Product"} kind={"delProduct"} event={setDeleteProduct} />
-                    <Navigation title={"Update Product"} kind={"updateProduct"} event={logout} />
+                    <Navigation title={"Add Product"} kind={"addProduct"} event={()=>{setState("addProduct")}} />
+                    <Navigation title={"Delete Product"} kind={"delProduct"} event={()=>{setState("deleteProduct")}} />
+                    <Navigation title={"Update Product"} kind={"updateProduct"} event={()=>{setState("updateProduct")}} />
                     <Navigation title={"Logout"} kind={"logout"} event={logout}/>
                     
                 </div>

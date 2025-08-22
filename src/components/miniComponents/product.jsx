@@ -1,13 +1,19 @@
 import { Plus, Minus } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useApi } from "../auth/ApiProvider";
 import { useCart } from "./CartVariablesProvider";
 
 
 
-function Product({type, sortedProducts}){
+function Product({type, sortedProducts, cart}){
+    cart  = cart || false
     const {api} = useApi()
     const {setProductsInCart, productsInCart} = useCart();
+    const [quantity, setQuantity] = useState(0)
+    useEffect(() => {
+
+      setQuantity(productsInCart.length)
+    }, [productsInCart])
     return(
         sortedProducts.map((product) => (
       <div key={product.id} className="bg-white border-2 rounded-2xl gap-4 cursor-pointer w-60 p-4 shadow-2xl flex flex-col items-center justify-end hover:scale-125 transition-transform duration-300">
@@ -19,22 +25,30 @@ function Product({type, sortedProducts}){
             <p>{product.description}</p>
           </div>
           <p className="text-green-600 font-semibold">${product.price}</p>
+          <p className={`text-black font-semibold ${product.quantity ? "flex" : "hidden"}`}>{product.quantity} in cart</p>
           
           {type === 'add' ? 
           <div onClick={async () => {
-                const alreadyExists = productsInCart.some(p => p.id === product.id);
-                if (!alreadyExists) {
-                    const res = await api.Cart('add', product.id)
-                    setProductsInCart(res.data.cart);
+                
+                if (product.quantity < 1) {
+                  setQuantity(0)
+                }else {
+                 setQuantity(1)
                 }
-                }} className="w-1/2 h-14 rounded-2xl text-4xl bg-green-300 border-2 flex items-center justify-center hover:scale-125 transform duration-300">
-            <Plus className="w-full"/>
-          </div>
+                
+                const res = await api.Cart('add', product.id)
+                setProductsInCart(res.data.cart_items);
+                }} className="w-1/2 h-14 rounded-2xl text-4xl overflow-hidden bg-green-300 border-2 flex flex-row items-center justify-center hover:scale-125 transform duration-300">
+                    
+                    <div className={`w-full h-full flex items-center justify-center`}>
+                      <Plus className="h-full"/>
+                    </div>
+                  </div>
           : 
           <div onClick={async () => {
           
             const res = await api.Cart('delete', product.id)
-            setProductsInCart(res.data.cart);
+            setProductsInCart(res.data.cart_items);
             }} className="w-1/2 h-14 rounded-2xl text-4xl bg-red-300 border-2 flex items-center justify-center hover:scale-125 transform duration-300">
             <Minus className="w-full"/>
         </div>}

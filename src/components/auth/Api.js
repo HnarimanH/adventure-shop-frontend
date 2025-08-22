@@ -188,7 +188,7 @@ class HandleApiCalls {
             }
         )
             .then(res => res)
-            .catch(async () => {
+            .catch(async (err) => {
                 if (err.response?.status === 401) {
                     const refreshed = await this.TokenRefresh();
                     console.log(refreshed)
@@ -241,6 +241,58 @@ class HandleApiCalls {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         }).finally(() => { this.setIsLoading(false) });
+    }
+    UpdateProduct(id, name, price, category, description, image_url) {
+        this.setIsLoading(true);
+        return axios.post(
+            `${API}adminDashboard/updateproduct/`,
+            {
+                id: id,
+                name: name,
+                price: price,
+                description: description,
+                image_url: image_url,
+                category: category
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        )
+            .then((res) => {
+                if (res.status === 200) {
+                    return 'Product updated';
+                }
+                return res.data?.message || 'Unknown response';
+            })
+            .catch((e) => {
+                if (e.response?.status === 400) {
+                    return "Error: ID required";
+                } else if (e.response?.status === 404) {
+                    return "No product found with that ID";
+                }
+                console.error("error", e);
+            })
+            .finally(() => {
+                this.setIsLoading(false);
+            });
+    }
+    Checkout(setClientSecret) {
+        this.setIsLoading(true);
+
+        return axios.get(`${API}api/checkout/`, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        })
+            .then(res => {
+                setClientSecret(res.data.client_secret);
+            })
+            .catch(err => {
+                console.error("Error fetching client secret:", err.response?.data || err.message);
+            })
+            .finally(() => this.setIsLoading(false));
     }
 }
 

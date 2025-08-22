@@ -21,11 +21,11 @@ function Loginform(){
     
     const event  = async () => {
         const res = await api.Login(email, password)
-        if (res){
+        if (res === true){
             setIsLogedIn(true)
         }else{
             setError(res);
-        setTimeout(() => {
+            setTimeout(() => {
                 setError("");
             }, 5000);
         }

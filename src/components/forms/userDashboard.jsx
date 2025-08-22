@@ -74,7 +74,7 @@ function UserDashboard(){
                 setIsLogedIn(false); 
             }, 0);
             }else{
-                console.log("all good")
+                console.log("yooooooooo")
             }
         }
         validate_token();

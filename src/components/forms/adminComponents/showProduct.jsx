@@ -1,6 +1,7 @@
-import { Minus, Upload } from "lucide-react";
+import { Minus, Plus, Upload } from "lucide-react";
 import React from "react";
-import { useApi } from "../../auth/ApiProvider";;
+import { useApi } from "../../auth/ApiProvider";
+
 
 
 
@@ -28,13 +29,13 @@ function ShowProduct({type, sortedProducts, setProducts}){
                 } className="w-1/2 h-14 rounded-2xl text-4xl bg-red-300 border-2 flex items-center justify-center hover:scale-125 transform duration-300">
             <Minus className="w-full"/>
           </div>
-          : 
+          : type === 'update' ?
           <div onClick={async () => {
           
-            const res = await api.Cart('delete', product.id)
+            setProducts(product)
             }} className="w-1/2 h-14 rounded-2xl text-4xl bg-green-300 border-2 flex items-center justify-center hover:scale-125 transform duration-300">
             <Upload className="w-full"/>
-        </div>}
+        </div> : null}
       </div>
 )))}
 

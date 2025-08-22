@@ -3,6 +3,16 @@ import Dashboard from './components/pages/dashboard';
 import { useEffect } from 'react';
 import Loading from './components/miniComponents/Loading';
 import { useApi } from "./components/auth/ApiProvider";
+
+
+
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+const key = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+const stripePromise = loadStripe(key);
+
+
+
 function App() {
   
   const { api, isLoading, isLogedIn, setIsLogedIn } = useApi();
@@ -79,11 +89,14 @@ function App() {
 
   return (
     <>
+    <Elements stripe={stripePromise}>
       <div className='w-screen h-screen flex justify-center items-center'>
           {isLoading && <Loading />}
           
           {isLogedIn ? <Dashboard /> : <SignPage  />}
       </div>
+    </Elements>
+      
     </>
   )
 }

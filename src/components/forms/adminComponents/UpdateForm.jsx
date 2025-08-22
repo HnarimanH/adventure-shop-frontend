@@ -1,23 +1,32 @@
-import React, {useState} from "react";
+import React,{useState, useEffect} from "react";
+import { useApi } from "../../auth/ApiProvider";
+import CategoryDropdown from "../../miniComponents/CategoryDropdown";
 import Input from "../../miniComponents/Input";
 import Button from "../../miniComponents/Button";
-import CategoryDropdown from "../../miniComponents/CategoryDropdown";
-import { useApi } from "../../auth/ApiProvider";
 
-
-function AddProduct(){
+export default function UpdateForm({productToUpdate}){
+    if (!productToUpdate) return null;
     const {api} = useApi()
-    const [productName, setProductName] = useState(undefined)
-    const [productImageUrl, setProductImageUrl] = useState(undefined)
-    const [productDescription, setProductDescription] = useState(undefined)
-    const [productPrice, setProductPrice] = useState(undefined)
-    const [productCategory, setProductCategory] = useState(undefined)
+    const [productId, setProductId] = useState(productToUpdate.Id)
+    const [productName, setProductName] = useState(productToUpdate.name)
+    const [productImageUrl, setProductImageUrl] = useState(productToUpdate.image_url)
+    const [productDescription, setProductDescription] = useState(productToUpdate.description)
+    const [productPrice, setProductPrice] = useState(productToUpdate.price)
+    const [productCategory, setProductCategory] = useState(productToUpdate.category)
     const [error, setError] = useState(undefined)
+    useEffect(() => {
+        setProductId(productToUpdate.id)
+        setProductName(productToUpdate.name);
+        setProductImageUrl(productToUpdate.image_url || null);
+        setProductDescription(productToUpdate.description);
+        setProductPrice(productToUpdate.price);
+        setProductCategory(productToUpdate.category || "");
+    }, [productToUpdate]);
 
 
-    const createProduct = async () => {
-        if (productName && productImageUrl && productDescription && productPrice && productCategory){
-            const res = await api.CreateProduct(productPrice, productImageUrl, productCategory, productName, productDescription)
+    const updateProduct = async () => {
+        if (productId && productName && productImageUrl && productDescription && productPrice && productCategory){
+            const res = await api.UpdateProduct(productId, productName, productPrice, productCategory, productDescription, productImageUrl)
             if (res === null){
                 setError("null")
             }else{
@@ -46,7 +55,7 @@ function AddProduct(){
 
             <div className="w-auto min-w-1/2 h-32 flex items-center justify-center border-2  rounded-2xl overflow-hidden">
 
-                <img src={productImageUrl} alt="image" className=" h-full object-cover flex" />
+                <img src={productImageUrl} alt="image" className=" h-full object-cover" />
 
             </div>
 
@@ -87,7 +96,7 @@ function AddProduct(){
                 onChange={(e)=>{setProductPrice(e.target.value)}}
                 />
 
-                <Button text={"Add"} event={createProduct}  heightButton={"h-20"}  />
+                <Button text={"Add"} event={updateProduct}  heightButton={"h-20"}  />
             </div>
 
 
@@ -96,7 +105,3 @@ function AddProduct(){
         </div>
         )
 }
-
-
-
-export default AddProduct
